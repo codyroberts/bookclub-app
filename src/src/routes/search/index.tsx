@@ -4,7 +4,7 @@ import { type DocumentHead } from "@builder.io/qwik-city";
 export default component$(() => {
   return (
     <div class=" bg-lightest m-12 flex h-full flex-col items-center text-black">
-      Welcome to the Book Club App!
+      Welcome to the Search page!
     </div>
   );
 });
