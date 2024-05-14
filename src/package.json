@@ -29,6 +29,7 @@
   "devDependencies": {
     "@builder.io/qwik": "^1.5.4",
     "@builder.io/qwik-city": "^1.5.4",
+    "@edgedb/generate": "^0.5.3",
     "@types/eslint": "^8.56.10",
     "@types/node": "^20.12.7",
     "@typescript-eslint/eslint-plugin": "^7.7.1",
@@ -46,6 +47,7 @@
     "vite-tsconfig-paths": "^4.2.1"
   },
   "dependencies": {
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.4.5",
+    "edgedb": "^1.5.6"
   }
 }
