@@ -39,19 +39,27 @@ export default component$(() => {
   const clubs = useClubs();
   const createClubAction = useAddClub();
   return (
-    <div class=" m-12 flex h-full flex-col items-center bg-lightest text-black">
+    <div class="flex h-full flex-col items-center bg-lightest p-12 text-black">
       <Form action={createClubAction}>
         <input name="name" />
         <button type="submit">Create</button>
       </Form>
       {clubs.value.length ? (
         <>
-          <h2>Here are your clubs</h2>
-          <ul>
+          <h2 class="text-2xl">Here are your clubs</h2>
+          <div class="grid w-full grid-cols-5 gap-4">
             {clubs.value.map((club) => (
-              <li key={club.id}>{club.name}</li>
+              <div key={club.id} class="bg-dark p-2">
+                <h3 class="text-xl">{club.name}</h3>
+                <p>Members</p>
+                <ul>
+                  {club.members.map(({ id, name }) => (
+                    <li key={id}>{name}</li>
+                  ))}
+                </ul>
+              </div>
             ))}
-          </ul>
+          </div>
         </>
       ) : (
         <>
