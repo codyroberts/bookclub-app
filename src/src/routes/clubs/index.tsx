@@ -7,6 +7,7 @@ import {
 } from "@builder.io/qwik-city";
 import { getClient } from "~/client";
 import type { Club } from "dbschema/interfaces";
+import { useAuthSession } from "../plugin@auth";
 
 export const useClubs = routeLoader$(async () => {
   const client = await getClient();
@@ -33,6 +34,8 @@ export const useAddClub = routeAction$(async (data) => {
 });
 
 export default component$(() => {
+  const session = useAuthSession();
+  console.log(session.value);
   const clubs = useClubs();
   const createClubAction = useAddClub();
   return (
