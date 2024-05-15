@@ -22,7 +22,6 @@ export const useClubs = routeLoader$(async () => {
 
 export const useAddClub = routeAction$(async (data) => {
   const client = await getClient();
-  console.log(data);
   await client.execute(
     `
     insert Club {
