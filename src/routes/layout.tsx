@@ -17,12 +17,12 @@ export const onGet: RequestHandler = async ({ cacheControl }) => {
 
 export default component$(() => {
   return (
-    <>
+    <div class="grid h-screen grid-rows-[70px_auto_70px]">
       <Header />
-      <main>
+      <main class="justify-stretch">
         <Slot />
       </main>
       <Footer />
-    </>
+    </div>
   );
 });

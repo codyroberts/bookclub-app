@@ -3,8 +3,8 @@ import { type DocumentHead } from "@builder.io/qwik-city";
 
 export default component$(() => {
   return (
-    <div class=" bg-lightest m-12 flex h-full flex-col items-center text-black">
-      Welcome to the Search page!
+    <div class=" m-12 flex h-full flex-col items-center bg-lightest text-black">
+      Welcome to the My Bookshelf page!
     </div>
   );
 });
