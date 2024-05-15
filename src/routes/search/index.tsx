@@ -13,6 +13,7 @@ interface SearchQuery {
       industryIdentifiers?: Array<Identifier>;
     };
   }>;
+  error?: unknown;
 }
 
 interface Identifier {
@@ -66,9 +67,10 @@ export const useFetchBooks = routeAction$(async (data, event) => {
   );
 
   const result: SearchQuery = await res.json();
-
+  const success = !("error" in result);
+  if (!success) console.log(result.error);
   return {
-    success: true,
+    success,
     result,
   };
 });
@@ -111,6 +113,7 @@ export default component$(() => {
           )) ?? <p class="m-5">No books found</p>}
         </ul>
       ) : null}
+      {action.value?.success === false && <p>Error fetching books</p>}
     </div>
   );
 });
