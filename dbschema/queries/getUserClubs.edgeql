@@ -14,5 +14,5 @@ select {
   		id,
   		name
   	}
-  } filter count(.members.email = <str>$email) = 0)
+  } filter (<str>$email not in (select .members.email)))
 };
