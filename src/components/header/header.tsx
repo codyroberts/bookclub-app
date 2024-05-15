@@ -3,7 +3,7 @@ import { Link } from "@builder.io/qwik-city";
 
 export default component$(() => {
   return (
-    <header class="bg-darkest text-white">
+    <header class="content-center bg-darkest text-white">
       <ul class="flex list-none flex-row items-center justify-evenly">
         <li>
           <Link class="text-xl" href="/myprofile">
@@ -21,8 +21,8 @@ export default component$(() => {
           </Link>
         </li>
         <li>
-          <Link class="text-xl" href="/clubs">
-            Clubs
+          <Link class="text-xl" href="/myclubs">
+            My Clubs
           </Link>
         </li>
         <li>
