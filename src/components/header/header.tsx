@@ -11,8 +11,8 @@ export default component$(() => {
           </Link>
         </li>
         <li>
-          <Link class="text-xl" href="/mybooks">
-            My Books
+          <Link class="text-xl" href="/mybookshelf">
+            My Bookshelf
           </Link>
         </li>
         <li>

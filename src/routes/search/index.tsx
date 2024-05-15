@@ -2,42 +2,53 @@ import { component$ } from "@builder.io/qwik";
 import { Form, routeAction$, type DocumentHead } from "@builder.io/qwik-city";
 
 interface SearchQuery {
-  items: Array<{
+  items?: Array<{
     id: string;
     volumeInfo: {
-      title: string;
-      authors: Array<string>;
-      publisher: string;
-      publishedDate: string;
-      description: string;
-      identifiers: Array<string>;
+      title?: string;
+      authors?: Array<string>;
+      publisher?: string;
+      publishedDate?: string;
+      description?: string;
+      industryIdentifiers?: Array<Identifier>;
     };
   }>;
 }
 
-interface Book {
-  title: string;
-  authors: Array<string>;
-  publisher: string;
-  publishedDate: string;
-  description: string;
-  identifiers: Array<string>;
+interface Identifier {
+  type: string;
+  identifier: string;
 }
 
-const BookEntry = component$<Book>(({ book }) => {
+interface Book {
+  title?: string;
+  authors?: Array<string>;
+  publisher?: string;
+  publishedDate?: string;
+  description?: string;
+  industryIdentifiers?: Array<Identifier>;
+}
+
+interface BookEntryProps {
+  book: Book;
+}
+
+const BookEntry = component$<BookEntryProps>(({ book }) => {
   return (
-    <div class="grid-columns-[20%_80%] m-2 grid grid-rows-[auto_auto_auto_auto_auto_auto] gap-3 border-2 border-darkest p-5">
-      <p class="col-start-1 col-end-1">Title:</p>
-      <div class="col-start-2 col-end-2">{book.title}</div>
-      <p class="col-start-1 col-end-1">Author:</p>
-      <div class="col-start-2 col-end-2">{book.authors[0]}</div>
-      <p class="col-start-1 col-end-1">Publisher:</p>
-      <div class="col-start-2 col-end-2">{book.publisher}</div>
-      <p class="col-start-1 col-end-1">Date Published:</p>
-      <div class="col-start-2 col-end-2">{book.publishedDate}</div>
-      <p class="col-start-1 col-end-1">Description:</p>
-      <div class="col-start-2 col-end-2">{book.description}</div>
-      <button class="col-start-1 col-end-1 rounded-xl bg-darkest p-2 text-light hover:bg-dark">
+    <div class="m-2 grid grid-cols-[20%_80%] gap-3 border-2 border-darkest p-5">
+      <p class="">Title:</p>
+      <div class="">{book.title}</div>
+      <p class="">Author:</p>
+      <div class="">{book.authors?.[0]}</div>
+      <p class="">Publisher:</p>
+      <div class="">{book.publisher}</div>
+      <p class="">Date Published:</p>
+      <div class="">{book.publishedDate}</div>
+      <p class="">ISBN 10</p>
+      <div class="">{book.industryIdentifiers?.[0].identifier}</div>
+      <p class="">Description:</p>
+      <div class="">{book.description}</div>
+      <button class="rounded-xl bg-darkest p-2 text-light hover:bg-dark">
         Add to Shelf
       </button>
     </div>
@@ -79,6 +90,11 @@ export default component$(() => {
           placeholder="Author"
           class="border-2 border-darkest bg-light"
         ></input>
+        {/* <input
+          name="isbn"
+          placeholder="ISBN"
+          class="border-2 border-darkest bg-light"
+        ></input> */}
         <button
           type="submit"
           class="rounded-xl bg-darkest p-2 text-light hover:bg-dark"
@@ -88,11 +104,11 @@ export default component$(() => {
       </Form>
       {action.value?.success ? (
         <ul>
-          {action.value.result.items.map((book) => (
+          {action.value.result.items?.map((book) => (
             <li key={book.id}>
               <BookEntry book={book.volumeInfo} />
             </li>
-          ))}
+          )) ?? <p class="m-5">No books found</p>}
         </ul>
       ) : null}
     </div>
