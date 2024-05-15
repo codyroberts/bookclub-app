@@ -49,6 +49,7 @@
     "vite-tsconfig-paths": "^4.2.1"
   },
   "dependencies": {
+    "@auth/edgedb-adapter": "^1.1.0",
     "dotenv": "^16.4.5",
     "edgedb": "^1.5.6"
   }

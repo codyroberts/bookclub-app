@@ -7,39 +7,49 @@ import {
 } from "@builder.io/qwik-city";
 import { getClient } from "~/client";
 import type { Club } from "dbschema/interfaces";
-import { useAuthSession } from "../plugin@auth";
+import type { Session } from "@auth/core/types";
 
-export const useClubs = routeLoader$(async () => {
+export const useClubs = routeLoader$(async (event) => {
+  const session: Session | null = event.sharedMap.get("session");
+  if (!session) return [];
   const client = await getClient();
   const clubs = await client.query<Club>(`
     select Club {
       id,
-      name
-    }
+      name,
+      members: {
+        name
+      }
+    } filter .members.email = "jqrainwater@gmail.com"
   `);
   return clubs;
 });
 
-export const useAddClub = routeAction$(async (data) => {
+export const useAddClub = routeAction$(async (data, event) => {
   const client = await getClient();
-  console.log(data);
+  const session: Session | null = event.sharedMap.get("session");
+  const email = session?.user?.email;
+  if (!email) return;
   await client.execute(
     `
     insert Club {
-      name := <str>$name
+      name := <str>$name,
+      members := (select User filter .email = <str>$email)
     }
   `,
-    data,
+    { name: data.name, email },
   );
 });
 
 export default component$(() => {
-  const session = useAuthSession();
-  console.log(session.value);
   const clubs = useClubs();
   const createClubAction = useAddClub();
   return (
     <div class=" m-12 flex h-full flex-col items-center bg-lightest text-black">
+      <Form action={createClubAction}>
+        <input name="name" />
+        <button type="submit">Create</button>
+      </Form>
       {clubs.value.length ? (
         <>
           <h2>Here are your clubs</h2>
@@ -52,10 +62,6 @@ export default component$(() => {
       ) : (
         <>
           <p>You have no clubs. Lets create one!</p>
-          <Form action={createClubAction}>
-            <input name="name" />
-            <button type="submit">Create</button>
-          </Form>
         </>
       )}
     </div>

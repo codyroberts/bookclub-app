@@ -73,19 +73,59 @@ export namespace cfg {
   }
 }
 export namespace $default {
-  export interface Club extends std.$Object {
-    "members": Person[];
-    "name"?: string | null;
+  export interface Account extends std.$Object {
+    "provider": string;
+    "providerAccountId": string;
+    "access_token"?: string | null;
+    "createdAt"?: Date | null;
+    "expires_at"?: number | null;
+    "id_token"?: string | null;
+    "refresh_token"?: string | null;
+    "scope"?: string | null;
+    "session_state"?: string | null;
+    "token_type"?: string | null;
+    "type": string;
+    "user": User;
+    "userId": string;
   }
-  export interface Person extends std.$Object {
+  export interface Club extends std.$Object {
     "name": string;
+    "members": User[];
+  }
+  export interface Session extends std.$Object {
+    "user": User;
+    "userId": string;
+    "createdAt"?: Date | null;
+    "expires": Date;
+    "sessionToken": string;
+  }
+  export interface User extends std.$Object {
+    "createdAt"?: Date | null;
+    "email": string;
+    "emailVerified"?: Date | null;
+    "image"?: string | null;
+    "name"?: string | null;
+    "accounts": Account[];
+    "sessions": Session[];
+  }
+  export interface VerificationToken extends std.$Object {
+    "identifier": string;
+    "token": string;
+    "createdAt"?: Date | null;
+    "expires": Date;
   }
 }
+import Account = $default.Account;
 import Club = $default.Club;
-import Person = $default.Person;
+import Session = $default.Session;
+import User = $default.User;
+import VerificationToken = $default.VerificationToken;
 export type {
+  Account,
   Club,
-  Person
+  Session,
+  User,
+  VerificationToken
 };
 export namespace fts {
   export type ElasticLanguage = "ara" | "bul" | "cat" | "ces" | "ckb" | "dan" | "deu" | "ell" | "eng" | "eus" | "fas" | "fin" | "fra" | "gle" | "glg" | "hin" | "hun" | "hye" | "ind" | "ita" | "lav" | "nld" | "nor" | "por" | "ron" | "rus" | "spa" | "swe" | "tha" | "tur" | "zho" | "edb_Brazilian" | "edb_ChineseJapaneseKorean";
@@ -348,8 +388,11 @@ export interface types {
     "mTLS": cfg.mTLS;
   };
   "default": {
+    "Account": $default.Account;
     "Club": $default.Club;
-    "Person": $default.Person;
+    "Session": $default.Session;
+    "User": $default.User;
+    "VerificationToken": $default.VerificationToken;
   };
   "fts": {
     "ElasticLanguage": fts.ElasticLanguage;
