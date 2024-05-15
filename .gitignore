@@ -41,3 +41,4 @@ lerna-debug.log*
 !.yarn/releases
 
 dbschema/edgeql-js
+dbschema/queries/*.query.ts
