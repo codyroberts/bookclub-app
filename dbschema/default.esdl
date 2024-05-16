@@ -67,5 +67,20 @@ module default {
   type Club {
     required name: str;
     multi members: User;
+    multi readingSessions: ReadingSession;
+  }
+
+  scalar type ReadingSessionStatus extending enum<Pending, Active, Finished>;
+
+  type ReadingSession {
+    required status: ReadingSessionStatus;
+    required name: str;
+    multi bookRecommendations: Book;
+  }
+
+  type Book {
+    required title: str;
+    required description: str;
+    required url: str;
   }
 };

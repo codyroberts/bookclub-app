@@ -25,7 +25,7 @@ export default component$(() => {
               </Link>
             </li>
             <li>
-              <Link class="text-xl" href="/myclubs">
+              <Link class="text-xl" href="/clubs">
                 My Clubs
               </Link>
             </li>

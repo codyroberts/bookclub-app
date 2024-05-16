@@ -1,6 +1,7 @@
 import { component$ } from "@builder.io/qwik";
 import {
   Form,
+  Link,
   routeAction$,
   routeLoader$,
   z,
@@ -67,7 +68,9 @@ export default component$(() => {
           <div class="grid w-full grid-cols-5 gap-4">
             {myClubs.value.myClubs.map((club) => (
               <div key={club.id} class="bg-dark p-2">
-                <h3 class="text-xl">{club.name}</h3>
+                <h3 class="text-xl">
+                  <Link href={`/clubs/${club.id}`}>{club.name}</Link>
+                </h3>
                 <p>Members</p>
                 <ul>
                   {club.members.map(({ id, name }) => (

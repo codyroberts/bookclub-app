@@ -88,10 +88,22 @@ export namespace $default {
     "user": User;
     "userId": string;
   }
+  export interface Book extends std.$Object {
+    "description": string;
+    "title": string;
+    "url": string;
+  }
   export interface Club extends std.$Object {
     "name": string;
     "members": User[];
+    "readingSessions": ReadingSession[];
   }
+  export interface ReadingSession extends std.$Object {
+    "status": ReadingSessionStatus;
+    "name": string;
+    "bookRecommendations": Book[];
+  }
+  export type ReadingSessionStatus = "Pending" | "Active" | "Finished";
   export interface Session extends std.$Object {
     "user": User;
     "userId": string;
@@ -116,13 +128,19 @@ export namespace $default {
   }
 }
 import Account = $default.Account;
+import Book = $default.Book;
 import Club = $default.Club;
+import ReadingSession = $default.ReadingSession;
+import ReadingSessionStatus = $default.ReadingSessionStatus;
 import Session = $default.Session;
 import User = $default.User;
 import VerificationToken = $default.VerificationToken;
 export type {
   Account,
+  Book,
   Club,
+  ReadingSession,
+  ReadingSessionStatus,
   Session,
   User,
   VerificationToken
@@ -389,7 +407,10 @@ export interface types {
   };
   "default": {
     "Account": $default.Account;
+    "Book": $default.Book;
     "Club": $default.Club;
+    "ReadingSession": $default.ReadingSession;
+    "ReadingSessionStatus": $default.ReadingSessionStatus;
     "Session": $default.Session;
     "User": $default.User;
     "VerificationToken": $default.VerificationToken;
