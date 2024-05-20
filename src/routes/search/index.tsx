@@ -1,37 +1,11 @@
 import { component$ } from "@builder.io/qwik";
 import { Form, routeAction$, type DocumentHead } from "@builder.io/qwik-city";
-
-interface SearchQuery {
-  items?: Array<{
-    id: string;
-    volumeInfo: {
-      title?: string;
-      authors?: Array<string>;
-      publisher?: string;
-      publishedDate?: string;
-      description?: string;
-      industryIdentifiers?: Array<Identifier>;
-    };
-  }>;
-  error?: unknown;
-}
-
-interface Identifier {
-  type: string;
-  identifier: string;
-}
-
-interface Book {
-  title?: string;
-  authors?: Array<string>;
-  publisher?: string;
-  publishedDate?: string;
-  description?: string;
-  industryIdentifiers?: Array<Identifier>;
-}
+import { BookCard } from "~/components/BookCard";
+import { Button } from "~/components/Button";
+import { SearchQuerySchema, type Volume } from "~/schemas";
 
 interface BookEntryProps {
-  book: Book;
+  book: Volume;
 }
 
 const BookEntry = component$<BookEntryProps>(({ book }) => {
@@ -66,9 +40,10 @@ export const useFetchBooks = routeAction$(async (data, event) => {
     `https://www.googleapis.com/books/v1/volumes?${params}`,
   );
 
-  const result: SearchQuery = await res.json();
+  const result = SearchQuerySchema.parse(await res.json());
   const success = !("error" in result);
   if (!success) console.log(result.error);
+  console.log(result);
   return {
     success,
     result,
@@ -105,13 +80,13 @@ export default component$(() => {
         </button>
       </Form>
       {action.value?.success ? (
-        <ul>
+        <div class="flex flex-wrap justify-center gap-4">
           {action.value.result.items?.map((book) => (
-            <li key={book.id}>
-              <BookEntry book={book.volumeInfo} />
-            </li>
+            <BookCard key={book.id} book={book.volumeInfo}>
+              <Button class="absolute bottom-2 right-2">Add to shelf</Button>
+            </BookCard>
           )) ?? <p class="m-5">No books found</p>}
-        </ul>
+        </div>
       ) : null}
       {action.value?.success === false && <p>Error fetching books</p>}
     </div>
