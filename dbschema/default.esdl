@@ -11,6 +11,7 @@ module default {
         property createdAt -> datetime {
             default := datetime_current();
         };
+        multi bookShelf: Book;
     }
 
 type Account {
@@ -79,9 +80,11 @@ type VerificationToken {
   }
 
   type Book {
+    required googleId: str;
     required title: str;
     required description: str;
     required url: str;
+    required imgUrl: str;
   }
 };
 
