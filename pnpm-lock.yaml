@@ -14,6 +14,9 @@ importers:
       '@qwik-ui/headless':
         specifier: ^0.3.8
         version: 0.3.8(@builder.io/qwik@1.5.4(@types/node@20.12.11)(undici@6.16.1))
+      '@qwik-ui/utils':
+        specifier: ^0.2.1
+        version: 0.2.1
       '@qwikest/icons':
         specifier: ^0.0.13
         version: 0.0.13(@builder.io/qwik@1.5.4(@types/node@20.12.11)(undici@6.16.1))
@@ -477,6 +480,9 @@ packages:
     engines: {node: '>=16.0.0'}
     peerDependencies:
       '@builder.io/qwik': ^1.4.0
+
+  '@qwik-ui/utils@0.2.1':
+    resolution: {integrity: sha512-NZkHmN6jZP6DMB6JL4iBc4vrXP+GbFSxCoTDTWrlB2bGL6D7+/IXkHzruLVH9GaLqo7yMgc/SBTZCZCPfVU3FA==}
 
   '@qwikest/icons@0.0.13':
     resolution: {integrity: sha512-e0wY8vmx0nDSUiuCATlk+ojTvdBV4txIGHHWjZW5SRkv4XB8H9+3WSDcLPz0ItUdRyzcrohE9k2jtQI/98aRPA==}
@@ -2552,6 +2558,8 @@ snapshots:
   '@qwik-ui/headless@0.3.8(@builder.io/qwik@1.5.4(@types/node@20.12.11)(undici@6.16.1))':
     dependencies:
       '@builder.io/qwik': 1.5.4(@types/node@20.12.11)(undici@6.16.1)
+
+  '@qwik-ui/utils@0.2.1': {}
 
   '@qwikest/icons@0.0.13(@builder.io/qwik@1.5.4(@types/node@20.12.11)(undici@6.16.1))':
     dependencies:

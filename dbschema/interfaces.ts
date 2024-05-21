@@ -92,18 +92,21 @@ export namespace $default {
     "description": string;
     "title": string;
     "url": string;
+    "googleId": string;
+    "imgUrl": string;
   }
   export interface Club extends std.$Object {
     "name": string;
     "members": User[];
     "readingSessions": ReadingSession[];
+    "currentSession"?: ReadingSession | null;
   }
   export interface ReadingSession extends std.$Object {
-    "status": ReadingSessionStatus;
     "name": string;
     "bookRecommendations": Book[];
+    "selectedBook"?: Book | null;
+    "isCompleted": boolean;
   }
-  export type ReadingSessionStatus = "Pending" | "Active" | "Finished";
   export interface Session extends std.$Object {
     "user": User;
     "userId": string;
@@ -119,6 +122,7 @@ export namespace $default {
     "name"?: string | null;
     "accounts": Account[];
     "sessions": Session[];
+    "bookShelf": Book[];
   }
   export interface VerificationToken extends std.$Object {
     "identifier": string;
@@ -131,7 +135,6 @@ import Account = $default.Account;
 import Book = $default.Book;
 import Club = $default.Club;
 import ReadingSession = $default.ReadingSession;
-import ReadingSessionStatus = $default.ReadingSessionStatus;
 import Session = $default.Session;
 import User = $default.User;
 import VerificationToken = $default.VerificationToken;
@@ -140,7 +143,6 @@ export type {
   Book,
   Club,
   ReadingSession,
-  ReadingSessionStatus,
   Session,
   User,
   VerificationToken
@@ -410,7 +412,6 @@ export interface types {
     "Book": $default.Book;
     "Club": $default.Club;
     "ReadingSession": $default.ReadingSession;
-    "ReadingSessionStatus": $default.ReadingSessionStatus;
     "Session": $default.Session;
     "User": $default.User;
     "VerificationToken": $default.VerificationToken;

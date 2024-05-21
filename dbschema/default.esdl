@@ -69,14 +69,14 @@ type VerificationToken {
     required name: str;
     multi members: User;
     multi readingSessions: ReadingSession;
+    currentSession: ReadingSession;
   }
 
-  scalar type ReadingSessionStatus extending enum<Pending, Active, Finished>;
-
   type ReadingSession {
-    required status: ReadingSessionStatus;
     required name: str;
+    required isCompleted: bool;
     multi bookRecommendations: Book;
+    selectedBook: Book;
   }
 
   type Book {
