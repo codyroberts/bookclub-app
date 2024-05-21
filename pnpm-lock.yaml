@@ -11,6 +11,9 @@ importers:
       '@auth/edgedb-adapter':
         specifier: ^1.1.0
         version: 1.1.0(edgedb@1.5.6)
+      '@qwik-ui/headless':
+        specifier: ^0.3.8
+        version: 0.3.8(@builder.io/qwik@1.5.4(@types/node@20.12.11)(undici@6.16.1))
       '@qwikest/icons':
         specifier: ^0.0.13
         version: 0.0.13(@builder.io/qwik@1.5.4(@types/node@20.12.11)(undici@6.16.1))
@@ -468,6 +471,12 @@ packages:
   '@pkgjs/parseargs@0.11.0':
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
     engines: {node: '>=14'}
+
+  '@qwik-ui/headless@0.3.8':
+    resolution: {integrity: sha512-kNr1W5QoT7itoxWMLSFrkA/M4cV9izYURHox+6pmH64zpXRuJJMjg7pvzhHW0ZAFSzEOJ5JhP4mPFWjMdRAMgQ==}
+    engines: {node: '>=16.0.0'}
+    peerDependencies:
+      '@builder.io/qwik': ^1.4.0
 
   '@qwikest/icons@0.0.13':
     resolution: {integrity: sha512-e0wY8vmx0nDSUiuCATlk+ojTvdBV4txIGHHWjZW5SRkv4XB8H9+3WSDcLPz0ItUdRyzcrohE9k2jtQI/98aRPA==}
@@ -2539,6 +2548,10 @@ snapshots:
 
   '@pkgjs/parseargs@0.11.0':
     optional: true
+
+  '@qwik-ui/headless@0.3.8(@builder.io/qwik@1.5.4(@types/node@20.12.11)(undici@6.16.1))':
+    dependencies:
+      '@builder.io/qwik': 1.5.4(@types/node@20.12.11)(undici@6.16.1)
 
   '@qwikest/icons@0.0.13(@builder.io/qwik@1.5.4(@types/node@20.12.11)(undici@6.16.1))':
     dependencies:
