@@ -1,10 +1,30 @@
 import { component$ } from "@builder.io/qwik";
-import { type DocumentHead } from "@builder.io/qwik-city";
+import { routeLoader$, type DocumentHead } from "@builder.io/qwik-city";
+import { getClient } from "~/client";
+import { BookCard } from "~/components/BookCard";
+import { getBookShelf } from "dbschema/queries/getBookShelf.query";
+import type { Session } from "@auth/core/types";
+
+export const useShelf = routeLoader$(async (event) => {
+  const session: Session | null = event.sharedMap.get("session");
+  const email = session?.user?.email;
+  if (!email) return null;
+  const client = await getClient();
+  const shelf = await getBookShelf(client, { email });
+
+  return shelf;
+});
 
 export default component$(() => {
+  const shelf = useShelf();
   return (
-    <div class=" m-12 flex h-full flex-col items-center bg-lightest text-black">
-      Welcome to the My Bookshelf page!
+    <div class=" flex h-full flex-col items-center bg-lightest p-12 text-black">
+      <h1 class="m-2 text-darkest">Books on your Bookshelf</h1>
+      <div class="flex flex-wrap justify-center gap-4">
+        {shelf.value?.bookShelf.map((book) => (
+          <BookCard key={book.id} book={book} />
+        )) ?? <p class="m-5">No books found</p>}
+      </div>
     </div>
   );
 });

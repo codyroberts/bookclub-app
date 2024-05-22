@@ -83,8 +83,8 @@ type VerificationToken {
     required googleId: str;
     required title: str;
     required description: str;
-    required url: str;
-    required imgUrl: str;
+    optional url: str;
+    optional imgUrl: str;
   }
 };
 

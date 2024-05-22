@@ -92,6 +92,8 @@ export namespace $default {
     "description": string;
     "title": string;
     "url": string;
+    "googleId": string;
+    "imgUrl": string;
   }
   export interface Club extends std.$Object {
     "name": string;
@@ -119,6 +121,7 @@ export namespace $default {
     "name"?: string | null;
     "accounts": Account[];
     "sessions": Session[];
+    "bookShelf": Book[];
   }
   export interface VerificationToken extends std.$Object {
     "identifier": string;
