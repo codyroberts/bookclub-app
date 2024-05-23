@@ -18,6 +18,7 @@ import { Input } from "~/components/input";
 import type { Session } from "@auth/core/types";
 import { BookCard } from "~/components/BookCard";
 import e from "dbschema/edgeql-js";
+import { useAuthSession } from "~/routes/plugin@auth";
 
 export const useClub = routeLoader$(async (event) => {
   const client = await getClient();
@@ -61,6 +62,31 @@ export const useAddBookRecommendation = routeAction$(
   zod$({ id: z.string(), bookId: z.string() }),
 );
 
+export const useVote = routeAction$(
+  async (data, event) => {
+    const session: Session | null = event.sharedMap.get("session");
+    const email = session?.user?.email;
+    if (!email) return;
+    const client = await getClient();
+    await e
+      .update(e.BookVote, () => ({
+        filter_single: { id: data.id },
+        set: {
+          voters: {
+            "+=": e.select(e.User, () => ({
+              id: true,
+              filter_single: { email },
+            })),
+          },
+        },
+      }))
+      .run(client);
+  },
+  zod$({
+    id: z.string(),
+  }),
+);
+
 export const useCurrentBookshelf = routeLoader$(async (event) => {
   const session: Session | null = event.sharedMap.get("session");
   const email = session?.user?.email;
@@ -77,7 +103,8 @@ export default component$(() => {
   const currentSession = useComputed$(() => club.value.currentSession);
   const bookShelfSig = useCurrentBookshelf();
   const addRecommendationAction = useAddBookRecommendation();
-  console.log(currentSession.value);
+  const voteAction = useVote();
+  const session = useAuthSession();
   return (
     <div class="p-4">
       <h2 class="text-3xl">{club.value.name}</h2>
@@ -137,16 +164,28 @@ export default component$(() => {
             books!
           </h3>
           <div class="flex gap-4">
-            {currentSession.value.bookRecommendations.map(({ book }) => (
-              <BookCard
-                key={book.id}
-                title={book.title}
-                description={book.description}
-                imgUrl={book.imgUrl}
-              >
-                <Button>Vote!</Button>
-              </BookCard>
-            ))}
+            {currentSession.value.bookRecommendations.map(
+              ({ id, book, votes, voters }) => {
+                const email = session.value?.user?.email;
+                const canVote =
+                  email && !voters.find((user) => user.email === email);
+                return (
+                  <BookCard
+                    key={id}
+                    title={book.title}
+                    description={book.description}
+                    imgUrl={book.imgUrl}
+                  >
+                    <p>Vote: {votes}</p>
+                    {canVote && (
+                      <Button onClick$={() => voteAction.submit({ id })}>
+                        Vote!
+                      </Button>
+                    )}{" "}
+                  </BookCard>
+                );
+              },
+            )}
           </div>
           <ModalWrapper>
             <ModalTrigger>
