@@ -13,10 +13,6 @@ import { SearchQuerySchema, type Volume } from "~/schemas";
 import { addBookToShelf } from "dbschema/queries/addBookToShelf.query";
 import type { Session } from "@auth/core/types";
 
-interface BookEntryProps {
-  book: Volume;
-}
-
 const BookSchema = z.object({
   googleId: z.string(),
   title: z.string(),
