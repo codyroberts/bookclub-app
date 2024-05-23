@@ -9,7 +9,7 @@ import {
 import { getClient } from "~/client";
 import { Button } from "~/components/Button";
 import { BookCard } from "~/components/BookCard";
-import { getBookShelf } from "dbschema/queries/getBookShelf.query";
+import { getBookshelf } from "dbschema/queries/getBookshelf.query";
 import { removeBookFromShelf } from "dbschema/queries/removeBookFromShelf.query";
 import type { Session } from "@auth/core/types";
 
@@ -18,7 +18,7 @@ export const useShelf = routeLoader$(async (event) => {
   const email = session?.user?.email;
   if (!email) return null;
   const client = await getClient();
-  const shelf = await getBookShelf(client, { email });
+  const shelf = await getBookshelf(client, { email });
   return shelf;
 });
 
@@ -45,7 +45,12 @@ export default component$(() => {
       <h1 class="m-2 text-darkest">Books on your Bookshelf</h1>
       <div class="flex flex-wrap justify-center gap-4">
         {shelf.value?.bookShelf.map((book) => (
-          <BookCard key={book.id} book={book}>
+          <BookCard
+            key={book.id}
+            title={book.title}
+            description={book.description}
+            imgUrl={book.imgUrl}
+          >
             <Button
               onClick$={() =>
                 unShelveBookAction.submit({

@@ -9,7 +9,7 @@ import {
 import { getClient } from "~/client";
 import { BookCard } from "~/components/BookCard";
 import { Button } from "~/components/Button";
-import { SearchQuerySchema, type Volume } from "~/schemas";
+import { SearchQuerySchema } from "~/schemas";
 import { addBookToShelf } from "dbschema/queries/addBookToShelf.query";
 import type { Session } from "@auth/core/types";
 
@@ -89,12 +89,17 @@ export default component$(() => {
       {action.value?.success ? (
         <div class="flex flex-wrap justify-center gap-4 pt-2">
           {action.value.result.items?.map((book) => (
-            <BookCard key={book.id} book={book.volumeInfo}>
+            <BookCard
+              key={book.id}
+              title={book.volumeInfo.title ?? ""}
+              description={book.volumeInfo.description ?? ""}
+              imgUrl={book.volumeInfo.imageLinks?.thumbnail ?? ""}
+            >
               <Button
                 onClick$={() =>
                   shelveBookAction.submit({
-                    title: book.volumeInfo.title,
-                    description: book.volumeInfo.description,
+                    title: book.volumeInfo.title ?? "",
+                    description: book.volumeInfo.description ?? "",
                     googleId: book.id,
                     imgUrl: book.volumeInfo.imageLinks?.thumbnail,
                   })

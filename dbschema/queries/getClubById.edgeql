@@ -7,7 +7,15 @@ select Club {
 	},
 	readingSessions: {
 		id,
-		status,
+		isCompleted,
 		name
-	}
+	},
+	currentSession: {
+		id,
+		name,
+		isCompleted,
+		bookRecommendations: {**},
+		selectedBook: {*}
+	},
+	
 } filter .id = <uuid>$id

@@ -25,7 +25,7 @@
     "preview": "qwik build preview && vite preview --open",
     "start": "vite --open --mode ssr",
     "qwik": "qwik",
-    "generate:db": "generate queries && generate interfaces"
+    "generate:db": "generate queries && generate interfaces && generate edgeql-js"
   },
   "devDependencies": {
     "@auth/core": "^0.13.0",
@@ -51,6 +51,9 @@
   },
   "dependencies": {
     "@auth/edgedb-adapter": "^1.1.0",
+    "@qwik-ui/headless": "^0.3.8",
+    "@qwik-ui/utils": "^0.2.1",
+    "@qwikest/icons": "^0.0.13",
     "dotenv": "^16.4.5",
     "edgedb": "^1.5.6"
   }
