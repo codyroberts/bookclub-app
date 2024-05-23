@@ -1,18 +1,17 @@
 import { Slot, component$ } from "@builder.io/qwik";
-import type { Volume } from "~/schemas";
 
-export const BookCard = component$<{ book: Volume }>(({ book }) => {
+type Props = {
+  title: string;
+  description: string;
+  imgUrl: string;
+};
+
+export const BookCard = component$<Props>(({ title, description, imgUrl }) => {
   return (
     <div class="relative h-[500px] w-[350px] overflow-hidden bg-dark p-4 text-light">
-      <p class="truncate text-xl">{book.title}</p>
-      <img
-        alt={book.title}
-        class="m-auto"
-        width="200"
-        height="300"
-        src={book.imageLinks?.thumbnail}
-      />
-      <p class="h-[75px] overflow-hidden text-ellipsis">{book.description}</p>
+      <p class="truncate text-xl">{title}</p>
+      <img alt={title} class="m-auto" width="200" height="300" src={imgUrl} />
+      <p class="h-[75px] overflow-hidden text-ellipsis">{description}</p>
       <Slot />
     </div>
   );

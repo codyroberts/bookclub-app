@@ -95,6 +95,11 @@ export namespace $default {
     "googleId": string;
     "imgUrl": string;
   }
+  export interface BookVote extends std.$Object {
+    "voters": User[];
+    "votes": number;
+    "book": Book;
+  }
   export interface Club extends std.$Object {
     "name": string;
     "members": User[];
@@ -103,9 +108,9 @@ export namespace $default {
   }
   export interface ReadingSession extends std.$Object {
     "name": string;
-    "bookRecommendations": Book[];
     "selectedBook"?: Book | null;
     "isCompleted": boolean;
+    "bookRecommendations": BookVote[];
   }
   export interface Session extends std.$Object {
     "user": User;
@@ -133,6 +138,7 @@ export namespace $default {
 }
 import Account = $default.Account;
 import Book = $default.Book;
+import BookVote = $default.BookVote;
 import Club = $default.Club;
 import ReadingSession = $default.ReadingSession;
 import Session = $default.Session;
@@ -141,6 +147,7 @@ import VerificationToken = $default.VerificationToken;
 export type {
   Account,
   Book,
+  BookVote,
   Club,
   ReadingSession,
   Session,
@@ -410,6 +417,7 @@ export interface types {
   "default": {
     "Account": $default.Account;
     "Book": $default.Book;
+    "BookVote": $default.BookVote;
     "Club": $default.Club;
     "ReadingSession": $default.ReadingSession;
     "Session": $default.Session;

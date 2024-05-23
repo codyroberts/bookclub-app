@@ -75,8 +75,14 @@ type VerificationToken {
   type ReadingSession {
     required name: str;
     required isCompleted: bool;
-    multi bookRecommendations: Book;
+    multi bookRecommendations: BookVote;
     selectedBook: Book;
+  }
+
+  type BookVote {
+    required book: Book;
+    multi voters: User;
+    votes := count(.voters);
   }
 
   type Book {

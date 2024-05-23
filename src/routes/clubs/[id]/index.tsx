@@ -17,6 +17,7 @@ import { Label } from "@qwik-ui/headless";
 import { Input } from "~/components/input";
 import type { Session } from "@auth/core/types";
 import { BookCard } from "~/components/BookCard";
+import e from "dbschema/edgeql-js";
 
 export const useClub = routeLoader$(async (event) => {
   const client = await getClient();
@@ -37,6 +38,29 @@ export const useCreateSession = routeAction$(
   }),
 );
 
+export const useAddBookRecommendation = routeAction$(
+  async (data) => {
+    const client = await getClient();
+    const id = data.id;
+    const bookVote = e.insert(e.BookVote, {
+      book: e.select(e.Book, () => ({
+        filter_single: { id: data.bookId },
+      })),
+    });
+    await e
+      .update(e.ReadingSession, () => ({
+        filter_single: { id },
+        set: {
+          bookRecommendations: {
+            "+=": bookVote,
+          },
+        },
+      }))
+      .run(client);
+  },
+  zod$({ id: z.string(), bookId: z.string() }),
+);
+
 export const useCurrentBookshelf = routeLoader$(async (event) => {
   const session: Session | null = event.sharedMap.get("session");
   const email = session?.user?.email;
@@ -52,6 +76,8 @@ export default component$(() => {
   const createSessionAction = useCreateSession();
   const currentSession = useComputed$(() => club.value.currentSession);
   const bookShelfSig = useCurrentBookshelf();
+  const addRecommendationAction = useAddBookRecommendation();
+  console.log(currentSession.value);
   return (
     <div class="p-4">
       <h2 class="text-3xl">{club.value.name}</h2>
@@ -99,22 +125,32 @@ export default component$(() => {
           </ModalWrapper>{" "}
         </>
       )}
-      {currentSession.value?.selectedBook ? (
+      {currentSession.value?.selectedBook && (
         <>
           <h3>Currently Reading: {currentSession.value.selectedBook.title}</h3>
         </>
-      ) : (
+      )}
+      {currentSession.value && !currentSession.value.selectedBook && (
         <>
           <h3>
-            Reading Session: {currentSession.value?.name} underway. Lets vote on
+            Reading Session: {currentSession.value.name} underway. Lets vote on
             books!
           </h3>
-          {currentSession.value?.bookRecommendations.map((book) => (
-            <div key={book.id}>{book.title}</div>
-          ))}
+          <div class="flex gap-4">
+            {currentSession.value.bookRecommendations.map(({ book }) => (
+              <BookCard
+                key={book.id}
+                title={book.title}
+                description={book.description}
+                imgUrl={book.imgUrl}
+              >
+                <Button>Vote!</Button>
+              </BookCard>
+            ))}
+          </div>
           <ModalWrapper>
             <ModalTrigger>
-              <Button>Vote!</Button>
+              <Button>Add Book</Button>
             </ModalTrigger>
             <Modal>
               <ModalHeader>
@@ -123,7 +159,20 @@ export default component$(() => {
               <ModalContent>
                 <div class="flex flex-col">
                   {bookShelfSig.value.map((book) => (
-                    <div key={book.id}>{book.title}</div>
+                    <div key={book.id} class="flex">
+                      <p>{book.title}</p>
+                      <Button
+                        class="ml-auto"
+                        onClick$={() => {
+                          addRecommendationAction.submit({
+                            bookId: book.id,
+                            id: currentSession.value!.id,
+                          });
+                        }}
+                      >
+                        Add
+                      </Button>
+                    </div>
                   ))}
                 </div>
               </ModalContent>
@@ -141,7 +190,6 @@ export default component$(() => {
           </ModalWrapper>
         </>
       )}
-
       <ul>
         {club.value.readingSessions.map(({ name, id }) => (
           <li key={id}>{name}</li>
