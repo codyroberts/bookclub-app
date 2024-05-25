@@ -57,12 +57,21 @@ export default component$(() => {
   const joinClubAction = useJoinClub();
   return (
     <div class="flex h-full flex-col items-center bg-lightest p-12 text-black">
-      <h2 class="text-2xl">Create a Club</h2>
-      <Form action={createClubAction}>
-        <input name="name" />
-        <button type="submit">Create</button>
+      <h2 class="text-2xl text-darkest">Create a Club</h2>
+      <Form class="flex flex-col gap-2" action={createClubAction}>
+        <input
+          placeholder="Club Name"
+          class="border-2 border-darkest bg-light"
+          name="name"
+        />
+        <button
+          class="rounded-xl bg-darkest p-2 text-light hover:bg-dark"
+          type="submit"
+        >
+          Create
+        </button>
       </Form>
-      <h2 class="text-2xl">My clubs</h2>
+      <h2 class="text-2xl text-darkest">My Clubs</h2>
       {myClubs.value?.myClubs.length ? (
         <>
           <div class="grid w-full grid-cols-5 gap-4">
@@ -83,10 +92,10 @@ export default component$(() => {
         </>
       ) : (
         <>
-          <p>You have no clubs. Lets create one!</p>
+          <p class="text-darkest">You have no clubs. Lets create one!</p>
         </>
       )}
-      <h2 class="text-2xl">Join a Club</h2>
+      <h2 class="text-2xl text-darkest">Join a Club</h2>
       <>
         <div class="grid w-full grid-cols-5 gap-4">
           {myClubs.value?.recommendedClubs.map((club) => (
