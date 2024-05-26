@@ -178,7 +178,10 @@ export default component$(() => {
                   >
                     <p>Vote: {votes}</p>
                     {canVote && (
-                      <Button onClick$={() => voteAction.submit({ id })}>
+                      <Button
+                        class="absolute bottom-2 right-2 bg-darkest hover:border-2 hover:border-darkest hover:bg-light hover:text-darkest"
+                        onClick$={() => voteAction.submit({ id })}
+                      >
                         Vote!
                       </Button>
                     )}{" "}
@@ -189,7 +192,7 @@ export default component$(() => {
           </div>
           <ModalWrapper>
             <ModalTrigger>
-              <Button>Add Book</Button>
+              <Button class="mt-2">Add Book</Button>
             </ModalTrigger>
             <Modal>
               <ModalHeader>
