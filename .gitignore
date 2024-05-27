@@ -43,3 +43,6 @@ lerna-debug.log*
 dbschema/edgeql-js
 dbschema/**/*.ts
 dbschema/*.ts
+
+# Vercel
+.vercel
